@@ -1,4 +1,5 @@
-# Mod Scaffold
+# Reasonable Defaults
+A simple mod to include default servers and keybinds for modpacks.
 
 ## Quick Links for Development
 - [Update Gradle](./build.gradle.kts)
