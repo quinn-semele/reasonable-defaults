@@ -1,0 +1,8 @@
+{
+  "reasonable_defaults.screen.overview": "Reasonable Defaults Configs",
+  "reasonable_defaults.button.servers": "Servers",
+  "reasonable_defaults.button.keybinds": "Key Binds",
+  "reasonable_defaults.button.resource_packs": "Resource Packs",
+
+  "reasonable_defaults.screen.servers": "Default Servers"
+}
