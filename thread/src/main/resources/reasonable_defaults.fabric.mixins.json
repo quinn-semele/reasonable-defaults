@@ -2,10 +2,9 @@
   "required": true,
   "minVersion": "0.8",
   "package": "dev.compasses.reasonable_defaults.fabric.mixin",
-  "refmap": "${mod_id}.refmap.json",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "MixinTitleScreen"
+
   ],
   "injectors": {
     "defaultRequire": 1
