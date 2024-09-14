@@ -1,1 +1,1 @@
-- Initial Release of the mod.
+- Initial release, lets modpack authors add default servers to the server list.
