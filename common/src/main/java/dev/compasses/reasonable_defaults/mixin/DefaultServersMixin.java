@@ -1,20 +1,16 @@
 package dev.compasses.reasonable_defaults.mixin;
 
-import com.google.gson.*;
-import com.mojang.datafixers.kinds.Const;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import dev.compasses.reasonable_defaults.Constants;
-import dev.compasses.reasonable_defaults.ServerObject;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.util.GsonHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -45,26 +41,18 @@ public class DefaultServersMixin {
         }
 
         try (Reader reader = Files.newBufferedReader(customServersFile)) {
-            JsonArray servers = GsonHelper.parseArray(reader);
+            JsonObject servers = GsonHelper.parse(reader, true);
 
-            for (int i = 0; i < servers.size(); i++) {
-                try {
-                    ServerObject object = Constants.GSON.fromJson(servers.get(i), ServerObject.class);
+            for (var entry : servers.entrySet()) {
+                String name = entry.getKey();
+                JsonElement ip = entry.getValue();
 
-                    ServerData data = new ServerData(
-                            object.name(),
-                            object.ip(),
-                            ServerData.Type.OTHER
-                    );
-
-                    data.setResourcePackStatus(object.useServerPack());
-
-                    serverList.add(data);
-                } catch (JsonParseException error) {
-                    Constants.LOG.warn("Skipping default server entry #{} because it is not valid.", i + 1);
+                if (ip.isJsonPrimitive()) {
+                    serverList.add(new ServerData(name, ip.getAsString(), ServerData.Type.OTHER));
+                } else {
+                    Constants.LOG.warn("Skipping \"{}\" entry due to having an invalid ip, must be a string.", name);
                 }
             }
-
         } catch (IOException error) {
             Constants.LOG.warn("Failed to add default servers to the server list...");
         }
