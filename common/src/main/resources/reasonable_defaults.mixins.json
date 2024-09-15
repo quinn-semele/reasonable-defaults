@@ -4,7 +4,8 @@
   "package": "dev.compasses.reasonable_defaults.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "DefaultServersMixin"
+    "DefaultServersMixin",
+    "DefaultResourcePacksMixin"
   ],
   "injectors": {
     "defaultRequire": 1

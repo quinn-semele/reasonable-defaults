@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
-import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -40,7 +39,7 @@ public class DefaultServersMixin {
             return;
         }
 
-        try (Reader reader = Files.newBufferedReader(customServersFile)) {
+        try (var reader = Files.newBufferedReader(customServersFile)) {
             JsonObject servers = GsonHelper.parse(reader, true);
 
             for (var entry : servers.entrySet()) {
@@ -54,7 +53,7 @@ public class DefaultServersMixin {
                 }
             }
         } catch (IOException error) {
-            Constants.LOG.warn("Failed to add default servers to the server list...");
+            Constants.LOG.error("Failed to add default servers to the server list...", error);
         }
     }
 }
